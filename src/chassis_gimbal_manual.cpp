@@ -8,14 +8,20 @@ namespace rm_manual
 {
 ChassisGimbalManual::ChassisGimbalManual(ros::NodeHandle& nh) : ManualBase(nh)
 {
-  ros::NodeHandle chassis_nh(nh, "chassis");
-  chassis_cmd_sender_ = new rm_common::ChassisCommandSender(chassis_nh, data_.referee_.referee_data_);
-  ros::NodeHandle vel_nh(nh, "vel");
-  vel_cmd_sender_ = new rm_common::Vel2DCommandSender(vel_nh);
-  if (!vel_nh.getParam("gyro_move_reduction", gyro_move_reduction_))
-    ROS_ERROR("Gyro move reduction no defined (namespace: %s)", nh.getNamespace().c_str());
-  if (!vel_nh.getParam("gyro_rotate_reduction", gyro_rotate_reduction_))
-    ROS_ERROR("Gyro rotate reduction no defined (namespace: %s)", nh.getNamespace().c_str());
+    std::string robot;
+    robot = getParam(nh, "robot_type", (std::string) "error");
+    if (robot != "drone"
+          )
+  {
+      ros::NodeHandle chassis_nh(nh, "chassis");
+      chassis_cmd_sender_ = new rm_common::ChassisCommandSender(chassis_nh, data_.referee_.referee_data_);
+      ros::NodeHandle vel_nh(nh, "vel");
+      vel_cmd_sender_ = new rm_common::Vel2DCommandSender(vel_nh);
+      if (!vel_nh.getParam("gyro_move_reduction", gyro_move_reduction_))
+          ROS_ERROR("Gyro move reduction no defined (namespace: %s)", nh.getNamespace().c_str());
+      if (!vel_nh.getParam("gyro_rotate_reduction", gyro_rotate_reduction_))
+          ROS_ERROR("Gyro rotate reduction no defined (namespace: %s)", nh.getNamespace().c_str());
+  }
   ros::NodeHandle gimbal_nh(nh, "gimbal");
   gimbal_cmd_sender_ = new rm_common::GimbalCommandSender(gimbal_nh, data_.referee_.referee_data_);
   ros::NodeHandle ui_nh(nh, "ui");

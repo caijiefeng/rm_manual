@@ -7,7 +7,7 @@ namespace rm_manual
         ros::NodeHandle gimbal_nh(nh, "gimbal");
         gimbal_cmd_sender_ = new rm_common::GimbalCommandSender(gimbal_nh, data_.referee_.referee_data_);
         ros::NodeHandle shooter_nh(nh, "shooter");
-        shooter_cmd_sender_ = new rm_common::ShooterCommandSender(shooter_nh, data_.referee_.referee_data_);
+        shooter_cmd_sender_ = new rm_common::ShooterCommandSender(shooter_nh, data_.referee_.referee_data_, data_.track_data_);
         ros::NodeHandle ui_nh(nh, "ui");
         trigger_change_ui_ = new TriggerChangeUi(ui_nh, data_);
         time_change_ui_ = new TimeChangeUi(ui_nh, data_);

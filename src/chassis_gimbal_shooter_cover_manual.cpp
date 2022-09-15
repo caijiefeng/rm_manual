@@ -8,9 +8,14 @@ namespace rm_manual
 {
 ChassisGimbalShooterCoverManual::ChassisGimbalShooterCoverManual(ros::NodeHandle& nh) : ChassisGimbalShooterManual(nh)
 {
-  ros::NodeHandle cover_nh(nh, "cover");
-  nh.param("supply_frame", supply_frame_, std::string("supply_frame"));
-  cover_command_sender_ = new rm_common::JointPositionBinaryCommandSender(cover_nh);
+  std::string robot;
+  robot = getParam(nh, "robot_type", (std::string) "error");
+  if (robot != "drone")
+  {
+      ros::NodeHandle cover_nh(nh, "cover");
+      nh.param("supply_frame", supply_frame_, std::string("supply_frame"));
+      cover_command_sender_ = new rm_common::JointPositionBinaryCommandSender(cover_nh);
+  }
   XmlRpc::XmlRpcValue rpc_value;
   nh.getParam("gimbal_calibration", rpc_value);
   gimbal_calibration_ = new rm_common::CalibrationQueue(rpc_value, nh, controller_manager_);
