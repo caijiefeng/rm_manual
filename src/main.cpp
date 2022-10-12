@@ -20,7 +20,7 @@ int main(int argc, char** argv)
   else if (robot == "engineer")
     manual_control = new rm_manual::EngineerManual(nh);
   else if (robot == "drone")
-    manual_control = new rm_manual::ChassisGimbalShooterCoverManual(nh);
+    manual_control = new rm_manual::DroneManual(nh);
   else
   {
     ROS_ERROR("no robot type ");
